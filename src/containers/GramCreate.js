@@ -18,8 +18,6 @@ import PhotoCamera from '../assets/camera/ic_photo_camera_36pt.png';
 import Stop from '../assets/camera/ic_stop_36pt.png';
 import VideoCam from '../assets/camera/ic_videocam_36pt.png';
 
-
-
 export default class GramCreate extends Component {
   constructor(props) {
     super(props);
