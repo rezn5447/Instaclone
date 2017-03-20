@@ -6,13 +6,19 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import firebase from 'firebase';
 import Camera from 'react-native-camera';
-import CamFrontWhite from '../assets/camera/ic_camera_front_white.png'
-import CamRearWhite from '../assets/camera/ic_camera_rear_white.png'
-import FlashAutoWhite from '../assets/camera/ic_flash_auto_white.png'
-import FlashOffWhite from '../assets/camera/ic_flash_off_white.png'
-import FlashOnWhite from '../assets/camera/ic_flash_on_white.png'
-import CamFrontWhite from '../assets/camera/ic_camera_front_white.png'
+import RNFetchBlob from 'react-native-fetch-blob';
+import CamFrontWhite from '../assets/camera/ic_camera_front_white.png';
+import CamRearWhite from '../assets/camera/ic_camera_rear_white.png';
+import FlashAutoWhite from '../assets/camera/ic_flash_auto_white.png';
+import FlashOffWhite from '../assets/camera/ic_flash_off_white.png';
+import FlashOnWhite from '../assets/camera/ic_flash_on_white.png';
+import PhotoCamera from '../assets/camera/ic_photo_camera_36pt.png';
+import Stop from '../assets/camera/ic_stop_36pt.png';
+import VideoCam from '../assets/camera/ic_videocam_36pt.png';
+
+
 
 export default class GramCreate extends Component {
   constructor(props) {
@@ -83,9 +89,9 @@ export default class GramCreate extends Component {
     const { back, front } = Camera.constants.Type;
 
     if (this.state.camera.type === back) {
-      icon = require('../assets/ic_camera_rear_white.png');
+      icon = { CamRearWhite };
     } else if (this.state.camera.type === front) {
-      icon = require('./assets/ic_camera_front_white.png');
+      icon = { CamFrontWhite };
     }
 
     return icon;
@@ -116,7 +122,7 @@ export default class GramCreate extends Component {
     const { auto, on, off } = Camera.constants.FlashMode;
 
     if (this.state.camera.flashMode === auto) {
-      icon = { CamFrontWhite };
+      icon = { FlashAutoWhite };
     } else if (this.state.camera.flashMode === on) {
       icon = { FlashOnWhite };
     } else if (this.state.camera.flashMode === off) {
@@ -172,7 +178,7 @@ export default class GramCreate extends Component {
                 onPress={this.takePicture}
             >
               <Image
-                  source={require('./assets/ic_photo_camera_36pt.png')}
+                  source={ PhotoCamera }
               />
             </TouchableOpacity>
             ||
@@ -187,7 +193,7 @@ export default class GramCreate extends Component {
                   onPress={this.startRecording}
               >
                 <Image
-                    source={require('./assets/ic_videocam_36pt.png')}
+                    source={VideoCam}
                 />
               </TouchableOpacity>
               ||
@@ -196,7 +202,7 @@ export default class GramCreate extends Component {
                   onPress={this.stopRecording}
               >
                 <Image
-                    source={require('./assets/ic_stop_36pt.png')}
+                    source={Stop}
                 />
               </TouchableOpacity>
           }
