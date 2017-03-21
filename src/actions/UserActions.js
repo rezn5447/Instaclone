@@ -1,4 +1,5 @@
 import firebase from 'firebase';
+import { Platform } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import RNFetchBlob from 'react-native-fetch-blob';
 import {
