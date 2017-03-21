@@ -5,7 +5,6 @@ import RNFetchBlob from 'react-native-fetch-blob';
 import {
   USER_CREATE,
   USERS_FETCH_SUCCESS,
-  USER_UPLOAD_IMAGE,
   USER_UPLOAD_IMAGE_SUCCESS,
   USER_UPLOAD_IMAGE_FAIL
 } from './types';
@@ -39,15 +38,19 @@ const fs = RNFetchBlob.fs;
 window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
 window.Blob = Blob;
 
+
 export const uploadImage = ({ uri, mime = 'application/octet-stream' }) => {
+  const { currentUser } = firebase.auth();
+  const { storage } = firebase.storage();
+  console.log(uri, currentUser.uid);
+
   return (dispatch) => {
     const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri
     // const sessionId = new Date().getTime();
-    let uploadBlob = null;
-    const currentUser = firebase.auth();
-    const storage = firebase.storage();
     const imageRef = storage.ref('images').child(`${currentUser.uid}`);
+    let uploadBlob = null;
 
+    console.log(imageRef);
     fs.readFile(uploadUri, 'base64')
       .then((data) => {
         return Blob.build(data, { type: `${mime};BASE64` });
