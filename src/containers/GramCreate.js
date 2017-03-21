@@ -3,12 +3,12 @@ import {
   Image,
   StatusBar,
   StyleSheet,
+  Platform,
   TouchableOpacity,
   View,
 } from 'react-native';
-import firebase from 'firebase';
+import { uploadImage } from '../actions/Index';
 import Camera from 'react-native-camera';
-import RNFetchBlob from 'react-native-fetch-blob';
 import CamFrontWhite from '../assets/camera/ic_camera_front_white.png';
 import CamRearWhite from '../assets/camera/ic_camera_rear_white.png';
 import FlashAutoWhite from '../assets/camera/ic_flash_auto_white.png';
@@ -17,6 +17,7 @@ import FlashOnWhite from '../assets/camera/ic_flash_on_white.png';
 import PhotoCamera from '../assets/camera/ic_photo_camera_36pt.png';
 import Stop from '../assets/camera/ic_stop_36pt.png';
 import VideoCam from '../assets/camera/ic_videocam_36pt.png';
+
 
 export default class GramCreate extends Component {
   constructor(props) {
@@ -34,12 +35,22 @@ export default class GramCreate extends Component {
       },
       isRecording: false
     };
+
+
+  }
+
+  onPictureTaken(Pic) {
+    this.props.uploadImage(Pic);
+  }
+
+  onVideoTaken(Vid) {
+    this.props.uploadImage(Pic);
   }
 
   takePicture = () => {
     if (this.camera) {
       this.camera.capture()
-        .then((data) => console.log(data))
+        .then((data) => uploadImage(data))
         .catch(err => console.error(err));
     }
   }
@@ -176,7 +187,7 @@ export default class GramCreate extends Component {
                 onPress={this.takePicture}
             >
               <Image
-                  source={ PhotoCamera }
+                  source={PhotoCamera}
               />
             </TouchableOpacity>
             ||

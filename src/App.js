@@ -17,7 +17,6 @@ class App extends Component {
       messagingSenderId: '687863757687'
     };
     firebase.initializeApp(config);
-    const storage = firebase.storage();
   }
 
   render() {

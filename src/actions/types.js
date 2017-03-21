@@ -7,6 +7,9 @@ export const LOGIN_USER = 'login_user';
 export const USER_UPDATE = 'user_update';
 export const USER_CREATE = 'user_create';
 export const USERS_FETCH_SUCCESS = 'user_fetch_success';
+export const USER_UPLOAD_IMAGE = 'user_upload_image';
+export const USER_UPLOAD_IMAGE_SUCCESS = 'user_upload_image_success';
+export const USER_UPLOAD_IMAGE_FAIL = 'user_upload_image_fail';
 
 export const STORY_FETCH_SUCCESS = 'story_fetch_success';
 
