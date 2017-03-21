@@ -6,9 +6,9 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import firebase from 'firebase';
+import { connect } from 'react-redux';
 import Camera from 'react-native-camera';
-import RNFetchBlob from 'react-native-fetch-blob';
+import { uploadImage } from '../actions/Index';
 import CamFrontWhite from '../assets/camera/ic_camera_front_white.png';
 import CamRearWhite from '../assets/camera/ic_camera_rear_white.png';
 import FlashAutoWhite from '../assets/camera/ic_flash_auto_white.png';
@@ -18,7 +18,8 @@ import PhotoCamera from '../assets/camera/ic_photo_camera_36pt.png';
 import Stop from '../assets/camera/ic_stop_36pt.png';
 import VideoCam from '../assets/camera/ic_videocam_36pt.png';
 
-export default class GramCreate extends Component {
+
+class GramCreate extends Component {
   constructor(props) {
     super(props);
 
@@ -34,12 +35,21 @@ export default class GramCreate extends Component {
       },
       isRecording: false
     };
+    console.log(this.props);
+  }
+
+  onPictureTaken(Pic) {
+    this.props.uploadImage(Pic);
+  }
+
+  onVideoTaken(Vid) {
+    this.props.uploadImage(Vid);
   }
 
   takePicture = () => {
     if (this.camera) {
       this.camera.capture()
-        .then((data) => console.log(data))
+        .then((data) => this.onPictureTaken(data))
         .catch(err => console.error(err));
     }
   }
@@ -47,7 +57,7 @@ export default class GramCreate extends Component {
   startRecording = () => {
     if (this.camera) {
       this.camera.capture({mode: Camera.constants.CaptureMode.video})
-          .then((data) => console.log(data))
+          .then((data) => this.onVideoTaken(data))
           .catch(err => console.error(err));
       this.setState({
         isRecording: true
@@ -176,7 +186,7 @@ export default class GramCreate extends Component {
                 onPress={this.takePicture}
             >
               <Image
-                  source={ PhotoCamera }
+                  source={PhotoCamera}
               />
             </TouchableOpacity>
             ||
@@ -255,3 +265,5 @@ const styles = StyleSheet.create({
     width: 10,
   },
 });
+
+export default connect(null, { uploadImage })(GramCreate);
