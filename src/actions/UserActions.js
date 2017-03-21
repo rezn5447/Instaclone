@@ -39,7 +39,7 @@ window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
 window.Blob = Blob;
 
 
-export const uploadImage = (uri, mime = 'application/octet-stream') => {
+export const uploadMedia = (uri, type, mime = 'application/octet-stream') => {
   const { currentUser } = firebase.auth();
   const sessionId = new Date().getTime();
   const imageRef = firebase.storage().ref(`/images/${currentUser.uid}/story/${sessionId}`);
@@ -67,7 +67,7 @@ export const uploadImage = (uri, mime = 'application/octet-stream') => {
         return dlURL;
       })
       .then((url) => {
-        userRef.push({ picture: url, type: 'photo' });
+        userRef.push({ picture: url, type });
         dispatch({ type: USER_UPLOAD_IMAGE_SUCCESS, payload: url });
       })
       .catch((error) => {

@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import Camera, { constants } from 'react-native-camera';
-import { uploadImage } from '../actions/Index';
+import { uploadMedia } from '../actions/Index';
 import CamFrontWhite from '../assets/camera/ic_camera_front_white.png';
 import CamRearWhite from '../assets/camera/ic_camera_rear_white.png';
 import FlashAutoWhite from '../assets/camera/ic_flash_auto_white.png';
@@ -37,13 +37,13 @@ class GramCreate extends Component {
     };
   }
 
-  onPictureTaken(uri) {
-    console.log(uri);
-    this.props.uploadImage(uri);
+  onPictureTaken(pic, type) {
+    console.log(pic);
+    this.props.uploadMedia(pic, type);
   }
 
-  onVideoTaken(Vid) {
-    this.props.uploadImage(Vid);
+  onVideoTaken(vid, type) {
+    this.props.uploadMedia(vid, type);
   }
 
   takePicture = () => {
@@ -51,7 +51,7 @@ class GramCreate extends Component {
       this.camera.capture()
         .then((data) => {
           console.log(data);
-          this.onPictureTaken(data);
+          this.onPictureTaken(data, 'picture');
         })
         .catch(err => console.error(err));
     }
@@ -60,7 +60,7 @@ class GramCreate extends Component {
   startRecording = () => {
     if (this.camera) {
       this.camera.capture({ mode: constants.CaptureMode.video })
-          .then((data) => this.onVideoTaken(data))
+          .then((data) => this.onVideoTaken(data, ''))
           .catch(err => console.error(err));
       this.setState({
         isRecording: true
@@ -269,4 +269,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(null, { uploadImage })(GramCreate);
+export default connect(null, { uploadMedia })(GramCreate);
