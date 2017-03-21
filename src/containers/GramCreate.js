@@ -7,7 +7,7 @@ import {
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
-import Camera from 'react-native-camera';
+import Camera, { constants } from 'react-native-camera';
 import { uploadImage } from '../actions/Index';
 import CamFrontWhite from '../assets/camera/ic_camera_front_white.png';
 import CamRearWhite from '../assets/camera/ic_camera_rear_white.png';
@@ -27,11 +27,11 @@ class GramCreate extends Component {
 
     this.state = {
       camera: {
-        aspect: Camera.constants.Aspect.fill,
-        captureTarget: Camera.constants.CaptureTarget.cameraRoll,
-        type: Camera.constants.Type.back,
-        orientation: Camera.constants.Orientation.auto,
-        flashMode: Camera.constants.FlashMode.auto,
+        aspect: constants.Aspect.fill,
+        captureTarget: constants.CaptureTarget.cameraRoll,
+        type: constants.Type.back,
+        orientation: constants.Orientation.auto,
+        flashMode: constants.FlashMode.auto,
       },
       isRecording: false
     };
@@ -39,7 +39,7 @@ class GramCreate extends Component {
   }
 
   onPictureTaken(Pic) {
-    this.props.uploadImage(Pic);
+    this.props.uploadImage({ Pic });
   }
 
   onVideoTaken(Vid) {
@@ -49,14 +49,17 @@ class GramCreate extends Component {
   takePicture = () => {
     if (this.camera) {
       this.camera.capture()
-        .then((data) => this.onPictureTaken(data))
+        .then((data) => {
+          this.onPictureTaken(data)
+          console.log(data);
+        })
         .catch(err => console.error(err));
     }
   }
 
   startRecording = () => {
     if (this.camera) {
-      this.camera.capture({mode: Camera.constants.CaptureMode.video})
+      this.camera.capture({mode: constants.CaptureMode.video})
           .then((data) => this.onVideoTaken(data))
           .catch(err => console.error(err));
       this.setState({
@@ -76,7 +79,7 @@ class GramCreate extends Component {
 
   switchType = () => {
     let newType;
-    const { back, front } = Camera.constants.Type;
+    const { back, front } = constants.Type;
 
     if (this.state.camera.type === back) {
       newType = front;
@@ -94,7 +97,7 @@ class GramCreate extends Component {
 
   typeIcon() {
     let icon;
-    const { back, front } = Camera.constants.Type;
+    const { back, front } = constants.Type;
 
     if (this.state.camera.type === back) {
       icon = { CamRearWhite };
@@ -107,7 +110,7 @@ class GramCreate extends Component {
 
   switchFlash = () => {
     let newFlashMode;
-    const { auto, on, off } = Camera.constants.FlashMode;
+    const { auto, on, off } = constants.FlashMode;
 
     if (this.state.camera.flashMode === auto) {
       newFlashMode = on;
@@ -127,7 +130,7 @@ class GramCreate extends Component {
 
   flashIcon() {
     let icon;
-    const { auto, on, off } = Camera.constants.FlashMode;
+    const { auto, on, off } = constants.FlashMode;
 
     if (this.state.camera.flashMode === auto) {
       icon = { FlashAutoWhite };
