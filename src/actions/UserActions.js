@@ -59,7 +59,7 @@ export const uploadImage = ({ uri, mime = 'application/octet-stream' }) => {
       .then(() => {
         uploadBlob.close();
         const dlURL = imageRef.getDownloadURL();
-        console.log(dlURL);
+        console.log(`The Download URL is: ${dlURL}`);
         return dlURL;
       })
       .then((url) => {
