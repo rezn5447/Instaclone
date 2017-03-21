@@ -39,18 +39,19 @@ window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
 window.Blob = Blob;
 
 
-export const uploadImage = ({ uri, mime = 'application/octet-stream' }) => {
+export const uploadImage = (uri, mime = 'application/octet-stream') => {
   const { currentUser } = firebase.auth();
-  const { storage } = firebase.storage();
-  console.log(uri, currentUser.uid);
+  const imageRef = firebase.storage().ref(`/images/${currentUser.uid}`);
+  console.log(imageRef);
 
   return (dispatch) => {
-    const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri
+    // const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri
+    const uploadUri = uri.path;
+
     // const sessionId = new Date().getTime();
-    const imageRef = storage.ref('images').child(`${currentUser.uid}`);
     let uploadBlob = null;
 
-    console.log(imageRef);
+    console.log(uploadUri, imageRef);
     fs.readFile(uploadUri, 'base64')
       .then((data) => {
         return Blob.build(data, { type: `${mime};BASE64` });

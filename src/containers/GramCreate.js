@@ -35,11 +35,11 @@ class GramCreate extends Component {
       },
       isRecording: false
     };
-    console.log(this.props);
   }
 
-  onPictureTaken(Pic) {
-    this.props.uploadImage({ Pic });
+  onPictureTaken(uri) {
+    console.log(uri);
+    this.props.uploadImage(uri);
   }
 
   onVideoTaken(Vid) {
@@ -50,8 +50,8 @@ class GramCreate extends Component {
     if (this.camera) {
       this.camera.capture()
         .then((data) => {
-          this.onPictureTaken(data)
           console.log(data);
+          this.onPictureTaken(data);
         })
         .catch(err => console.error(err));
     }
@@ -59,7 +59,7 @@ class GramCreate extends Component {
 
   startRecording = () => {
     if (this.camera) {
-      this.camera.capture({mode: constants.CaptureMode.video})
+      this.camera.capture({ mode: constants.CaptureMode.video })
           .then((data) => this.onVideoTaken(data))
           .catch(err => console.error(err));
       this.setState({
@@ -186,7 +186,7 @@ class GramCreate extends Component {
             &&
             <TouchableOpacity
                 style={styles.captureButton}
-                onPress={this.takePicture}
+                onPress={this.takePicture.bind(this)}
             >
               <Image
                   source={PhotoCamera}
