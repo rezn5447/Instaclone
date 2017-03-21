@@ -13,7 +13,7 @@ export default (state = INITIAL_STATE, action) => {
     case USER_UPLOAD_IMAGE_SUCCESS:
       return { ...state, image: action.payload };
     case USER_UPLOAD_IMAGE_FAIL:
-      return { error: `Image Upload Failed:   ${action.payload}` };
+      return { error: `Image Upload Failed:  ${action.payload}` };
     default:
       return state;
   }
