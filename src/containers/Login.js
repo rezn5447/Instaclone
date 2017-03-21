@@ -39,16 +39,18 @@ class Login extends Component {
             <View style={styles.inputContainer}>
               <TextInput
                 style={styles.input}
+                underlineColorAndroid='#CCC'
                 placeHolder="name@email.com"
-                placeHolderTextColor='rgba(255,255,255,0.7)'
+                placeHolderTextColor='#CCC'
                 onChangeText={this.onEmailChange.bind(this)}
                 value={this.props.email}
               />
               <TextInput
                 style={styles.input}
                 secureTextEntry
+                underlineColorAndroid='#CCC'
                 placeHolder="password"
-                placeHolderTextColor='rgba(255,255,255,0.7)'
+                placeHolderTextColor='#CCC'
                 onChangeText={this.onPasswordChange.bind(this)}
                 value={this.props.password}
               />
@@ -94,7 +96,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   logoStyle: {
     height: 70,
