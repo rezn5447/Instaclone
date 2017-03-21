@@ -41,14 +41,15 @@ window.Blob = Blob;
 
 export const uploadImage = (uri, mime = 'application/octet-stream') => {
   const { currentUser } = firebase.auth();
-  const imageRef = firebase.storage().ref(`/images/${currentUser.uid}`);
+  const sessionId = new Date().getTime();
+  const imageRef = firebase.storage().ref(`/images/${currentUser.uid}/story/${sessionId}`);
+  const userRef = firebase.database().ref(`/users/${currentUser.uid}/story`);
   console.log(imageRef);
 
   return (dispatch) => {
-    // const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri
+    // const uploadUri = Platform.OS === 'ios' ? uri.path.replace('file://', '') : uri.path
     const uploadUri = uri.path;
 
-    // const sessionId = new Date().getTime();
     let uploadBlob = null;
 
     console.log(uploadUri, imageRef);
@@ -63,10 +64,10 @@ export const uploadImage = (uri, mime = 'application/octet-stream') => {
       .then(() => {
         uploadBlob.close();
         const dlURL = imageRef.getDownloadURL();
-        console.log(`The Download URL is: ${dlURL}`);
         return dlURL;
       })
       .then((url) => {
+        userRef.push({ picture: url, type: 'photo' });
         dispatch({ type: USER_UPLOAD_IMAGE_SUCCESS, payload: url });
       })
       .catch((error) => {
