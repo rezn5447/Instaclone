@@ -50,7 +50,6 @@ class GramCreate extends Component {
     if (this.camera) {
       this.camera.capture()
         .then((data) => {
-          console.log(data);
           this.onPictureTaken(data, 'picture');
         })
         .catch(err => console.error(err));
@@ -60,7 +59,7 @@ class GramCreate extends Component {
   startRecording = () => {
     if (this.camera) {
       this.camera.capture({ mode: constants.CaptureMode.video })
-          .then((data) => this.onVideoTaken(data, ''))
+          .then((data) => this.onVideoTaken(data, 'video'))
           .catch(err => console.error(err));
       this.setState({
         isRecording: true
@@ -168,7 +167,7 @@ class GramCreate extends Component {
             onPress={this.switchType}
           >
             <Image
-              source={this.typeIcon}
+              source={this.typeIcon()}
             />
           </TouchableOpacity>
           <TouchableOpacity
@@ -176,7 +175,7 @@ class GramCreate extends Component {
             onPress={this.switchFlash}
           >
             <Image
-              source={this.flashIcon}
+              source={this.flashIcon()}
             />
           </TouchableOpacity>
         </View>

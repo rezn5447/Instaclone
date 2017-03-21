@@ -39,20 +39,21 @@ window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
 window.Blob = Blob;
 
 
-export const uploadMedia = (uri, type, mime = 'application/octet-stream') => {
+export const uploadMedia = (uri, type) => {
   const { currentUser } = firebase.auth();
   const sessionId = new Date().getTime();
   const imageRef = firebase.storage().ref(`/images/${currentUser.uid}/story/${sessionId}`);
   const userRef = firebase.database().ref(`/users/${currentUser.uid}/story`);
   console.log(imageRef);
 
-  return (dispatch) => {
-    // const uploadUri = Platform.OS === 'ios' ? uri.path.replace('file://', '') : uri.path
-    const uploadUri = uri.path;
+  const mime = type === 'picture' ? 'image/jpeg' : 'video/mp4';
 
+  console.log(mime);
+  return (dispatch) => {
+    // const uploadUri = Platform.OS === 'ios' ? uri.path.replace('file://', '') : uri.path;
     let uploadBlob = null;
 
-    console.log(uploadUri, imageRef);
+    const uploadUri = uri.path;
     fs.readFile(uploadUri, 'base64')
       .then((data) => {
         return Blob.build(data, { type: `${mime};BASE64` });
@@ -69,9 +70,11 @@ export const uploadMedia = (uri, type, mime = 'application/octet-stream') => {
       .then((url) => {
         userRef.push({ picture: url, type });
         dispatch({ type: USER_UPLOAD_IMAGE_SUCCESS, payload: url });
+        Actions.userProfile();
       })
       .catch((error) => {
         dispatch({ type: USER_UPLOAD_IMAGE_FAIL, payload: error });
+        Actions.userProfile();
     });
   };
 };
