@@ -20,9 +20,7 @@ import VideoCam from '../assets/camera/ic_videocam_36pt.png';
 
 
 class GramCreate extends Component {
-  constructor(props) {
-    super(props);
-
+  componentWillMount() {
     this.camera = null;
 
     this.state = {
@@ -99,9 +97,9 @@ class GramCreate extends Component {
     const { back, front } = constants.Type;
 
     if (this.state.camera.type === back) {
-      icon = { CamRearWhite };
+      icon = CamRearWhite;
     } else if (this.state.camera.type === front) {
-      icon = { CamFrontWhite };
+      icon = CamFrontWhite;
     }
 
     return icon;
@@ -132,11 +130,11 @@ class GramCreate extends Component {
     const { auto, on, off } = constants.FlashMode;
 
     if (this.state.camera.flashMode === auto) {
-      icon = { FlashAutoWhite };
+      icon = FlashAutoWhite;
     } else if (this.state.camera.flashMode === on) {
-      icon = { FlashOnWhite };
+      icon = FlashOnWhite;
     } else if (this.state.camera.flashMode === off) {
-      icon = { FlashOffWhite };
+      icon = FlashOffWhite;
     }
 
     return icon;
