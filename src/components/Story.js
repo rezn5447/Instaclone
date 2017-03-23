@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import { StyleSheet, View, Dimensions, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, View, Dimensions, PanResponder, TouchableWithoutFeedback } from 'react-native';
 import Indicator from './indicator';
 import Image from 'react-native-image-progress';
 import CircleSnail from 'react-native-progress/CircleSnail';
@@ -9,6 +9,10 @@ const { width, height } = Dimensions.get('window');
 class Story extends Component {
   componentWillMount() {
     this.props.storyFetch(this.props.data);
+    const indicatorAnim = new Animated.Value(0);
+    const horizontalSwipe = new Animated.Value(0);
+    const indicatorAnim = new Animated.Value(0);
+
   }
 
   componentWillReceiveProps(nextProps) {
@@ -37,7 +41,7 @@ class Story extends Component {
 
 			onPanResponderGrant: () => {
 				if (this.swipedHorizontally) {
-					this.horizontalSwipe.setOffset(this.horizontalSwipe._value);
+					this.horizontalSwipe.setOffset(this.props.horizontalSwipe.value);
 					this.horizontalSwipe.setValue(0);
 				}
 
