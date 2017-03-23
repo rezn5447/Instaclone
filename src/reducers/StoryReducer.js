@@ -8,7 +8,14 @@ import {
   CAROUSEL_STATE_OFF,
 } from '../actions/types';
 
-const INITIAL_STATE = { stories: {}, carouselOpen: false, paused: false, storyidx: 0, backOpacity: 0 };
+const INITIAL_STATE = {
+  stories: {},
+  carouselOpen: false,
+  paused: false,
+  storyidx: 0,
+  backOpacity: 0,
+  
+};
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
