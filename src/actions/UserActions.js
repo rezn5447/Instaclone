@@ -44,16 +44,13 @@ export const uploadMedia = (uri, type) => {
   const sessionId = new Date().getTime();
   const imageRef = firebase.storage().ref(`/images/${currentUser.uid}/story/${sessionId}`);
   const userRef = firebase.database().ref(`/users/${currentUser.uid}/story`);
-  console.log(imageRef);
-
   const mime = type === 'picture' ? 'image/jpeg' : 'video/mp4';
+  const uploadUri = Platform.OS === 'android' ? uri.path.replace('file://', '') : uri.path;
 
-  console.log(mime);
   return (dispatch) => {
-    // const uploadUri = Platform.OS === 'ios' ? uri.path.replace('file://', '') : uri.path;
     let uploadBlob = null;
 
-    const uploadUri = uri.path;
+    // const uploadUri = uri.path;
     fs.readFile(uploadUri, 'base64')
       .then((data) => {
         return Blob.build(data, { type: `${mime};BASE64` });
