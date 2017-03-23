@@ -18,6 +18,71 @@ class Story extends Component {
 
   }
 
+  initPanResponder() {
+		this.panResponder = PanResponder.create({
+			onMoveShouldSetResponderCapture: () => true,
+			onMoveShouldSetPanResponderCapture: (evt, { dx, dy }) => {
+				if (Math.abs(dx) > 5) {
+					this.swipedHorizontally = true;
+					return true;
+				}
+
+				if (dy > 5) {
+					this.swipedHorizontally = false;
+					return true;
+				}
+
+				return false;
+			},
+
+			onPanResponderGrant: () => {
+				if (this.swipedHorizontally) {
+					this.horizontalSwipe.setOffset(this.horizontalSwipe._value);
+					this.horizontalSwipe.setValue(0);
+				}
+
+				this.pause();
+				this.setBackOpacity(0);
+			},
+
+			onPanResponderMove: (e, { dx, dy }) => {
+				if (this.swipedHorizontally) {
+					this.horizontalSwipe.setValue(-dx);
+				} else {
+					this.verticalSwipe.setValue(dy);
+				}
+			},
+
+			onPanResponderRelease: (e, { dx, dy }) => {
+				if (!this.swipedHorizontally) {
+					if (dy > VERTICAL_THRESHOLD) return this.leaveStories();
+					this.play();
+					return this.resetVerticalSwipe();
+				}
+
+				this.horizontalSwipe.flattenOffset();
+				const deckIdx = this.deckIdx;
+
+				if (dx > HORIZONTAL_THRESHOLD) { // previous deck
+					if (deckIdx == 0)
+						return this.leaveStories();
+
+					return this.animateDeck(width * (deckIdx - 1), true);
+				}
+
+				if (dx < -HORIZONTAL_THRESHOLD) { // -> next deck
+					if (deckIdx == this.stories.length - 1)
+						return this.leaveStories();
+
+					return this.animateDeck(width * (deckIdx + 1), true);
+				}
+
+				this.play();
+				return this.animateDeck(width * deckIdx);
+			}
+		});
+	}
+
   render() {
     return (
       <TouchableWithoutFeedback
@@ -27,7 +92,7 @@ class Story extends Component {
       >
       <View style={{flex: 1}}>
         <Image
-          source={{ uri: storiesArray[storiesArray.idx].picture}}
+          source={{ uri: this.props.storiesArray[storiesArray.idx].picture}}
           style={styles.deck}
           indicator={CircleSnail}
           indicatorProps={circleSnailProps}
