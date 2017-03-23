@@ -14,11 +14,14 @@ class Story extends Component {
   componentWillReceiveProps(nextProps) {
     this.createDataSource(nextProps);
   }
+  onNextItem() {
+
+  }
 
   render() {
     return (
       <TouchableWithoutFeedback
-        onPress={this.props.onNextItem}
+        onPress={this.props.onNextItem.bind(this)}
         delayPressIn={200}
         onPressIn={this.props.pause}
       >
