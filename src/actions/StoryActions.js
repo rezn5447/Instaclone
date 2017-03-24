@@ -1,11 +1,10 @@
 import firebase from 'firebase';
 import {
   STORY_FETCH_SUCCESS,
-  PAUSE_OFF,
-  PAUSE_ON,
+  PAUSE_CHANGED,
   BACKOPACITY_CHANGED,
   IDX_CHANGED,
-  CAROUSEL_STATE_ON,
+  CAROUSEL_STATE_CHANGED,
   CAROUSEL_STATE_OFF
 } from './types';
 
@@ -18,27 +17,18 @@ export const storyFetch = (uid) => {
   };
 };
 
-export const pauseOff = () => {
+export const pauseChanged = (paused) => {
   return {
-    type: PAUSE_OFF,
+    type: PAUSE_CHANGED,
+    payload: paused
   };
 };
 
-export const pauseOn = () => {
-  return {
-    type: PAUSE_ON,
-  };
-};
 
-export const carouselStateOff = () => {
+export const carouselChanged = (status) => {
   return {
-    type: CAROUSEL_STATE_OFF,
-  };
-};
-
-export const carouselStateOn = () => {
-  return {
-    type: CAROUSEL_STATE_ON,
+    type: CAROUSEL_STATE_CHANGED,
+    payload: status
   };
 };
 

@@ -19,4 +19,5 @@ export const BACKOPACITY_CHANGED = 'backOpacity_changed';
 
 export const IDX_CHANGED = 'idx_changed';
 export const CAROUSEL_STATE_ON = 'carousel_state_on';
+export const CAROUSEL_STATE_CHANGED = 'carousel_state_changed';
 export const CAROUSEL_STATE_OFF = 'carousel_state_off';

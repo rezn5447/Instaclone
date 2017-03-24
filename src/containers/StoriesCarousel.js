@@ -17,6 +17,19 @@ class Stories extends Component {
     this.createDataSource(nextProps);
   }
 
+
+  openCarousel = (idx, offset) => {
+    this.offset = offset;
+    this.setDeckIdx(idx);
+    this.horizontalSwipe.setValue(idx * width);
+
+    requestAnimationFrame(() => {
+      LayoutAnimation.easeInEaseOut();
+      this.carouselOpen = true;
+      this.animateIndicator();
+    });
+  }
+
   initPanResponder() {
    this.panResponder = PanResponder.create({
      onMoveShouldSetResponderCapture: () => true,
@@ -36,7 +49,7 @@ class Stories extends Component {
 
      onPanResponderGrant: () => {
        if (this.swipedHorizontally) {
-         this.horizontalSwipe.setOffset(this.horizontalSwipe._value);
+         this.horizontalSwipe.setOffset(this.props.horizontalSwipe.value);
          this.horizontalSwipe.setValue(0);
        }
 
