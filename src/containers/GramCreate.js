@@ -36,7 +36,6 @@ class GramCreate extends Component {
   }
 
   onPictureTaken(pic, type) {
-    console.log(pic);
     this.props.uploadMedia(pic, type);
   }
 
